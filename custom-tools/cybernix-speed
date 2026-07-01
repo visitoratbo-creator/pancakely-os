@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -e
+
+# Pancakely OS Automated Hardware Optimizer
+echo "============================================="
+echo "   CYBERNIX SYSTEM OPTIMIZATION TOOLKIT      "
+echo "============================================="
+
+DETECTED_ARCH=$(uname -m)
+echo "INFO: Detecting system execution architecture... Found: $DETECTED_ARCH"
+
+if [ "$DETECTED_ARCH" = "aarch64" ]; then
+    echo "PROFILE: Activating low-draw, ultra-low overhead Raspberry Pi Profile..."
+    
+    # Force all CPU cores to maximum clock speeds instantly
+    if ls /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor >/dev/null 2>&1; then
+        echo "performance" | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor >/dev/null
+        echo " -> CPU Governor locked to PERFORMANCE mode."
+    fi
+    
+    # Save the physical SD card from burnout by tuning write caches
+    sysctl vm.dirty_background_ratio=20 >/dev/null
+    sysctl vm.dirty_ratio=40 >/dev/null
+    echo " -> SD Card read/write lifecycle protections applied."
+
+elif [ "$DETECTED_ARCH" = "x86_64" ]; then
+    echo "PROFILE: Activating maximum throughput Modern PC Core Matrix..."
+    
+    # Minimize sluggish swap file usage to keep all applications inside physical RAM
+    sysctl vm.swappiness=10 >/dev/null
+    
+    # Maximize network buffer thresholds for rapid packet injection
+    sysctl net.core.rmem_max=16777216 >/dev/null
+    sysctl net.core.wmem_max=16777216 >/dev/null
+    echo " -> Kernel swappiness reduced to 10. Network caching arrays widened."
+else
+    echo "WARNING: Unidentified hardware layout. Applying vanilla generic profiles."
+fi
+
+echo "SUCCESS: Cybernix hardware alignment matrix optimization execution complete."
+echo "============================================="
