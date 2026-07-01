@@ -18,22 +18,21 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y \
-          debootstrap \
-          squashfs-tools \
-          xorriso \
-          grub-pc-bin \
-          grub-efi-amd64-bin \
-          grub-efi-arm64-bin \
-          dosfstools \
-          mtools \
-          qemu-user-static \
-          binfmt-support \
-          parted \
-          kpartx \
-          systemd-container \
-          xorriso \
-          isolinux \
-          syslinux-common
+            debootstrap \
+            squashfs-tools \
+            xorriso \
+            grub-pc-bin \
+            grub-efi-amd64-bin \
+            dosfstools \
+            mtools \
+            qemu-user-static \
+            binfmt-support \
+            parted \
+            kpartx \
+            systemd-container \
+            isolinux \
+            syslinux-common \
+            rsync
 
       - name: Make build script executable
         run: chmod +x build.sh
