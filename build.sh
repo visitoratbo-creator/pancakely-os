@@ -7,7 +7,7 @@ if [ "$EUID" -ne 0 ]; then
 fi
 
 ARCH="${1:-x86_64}"
-DIST_NAME="GhostOS"
+DIST_NAME="Pancakely OS"
 DEBIAN_MIRROR="http://deb.debian.org/debian"
 DEBIAN_VERSION="bookworm"
 WORK_DIR="/opt/${DIST_NAME}-build"
