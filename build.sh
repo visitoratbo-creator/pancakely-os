@@ -124,7 +124,7 @@ nmap \
 wireshark \
 aircrack-ng \
 hydra \
-ncrack
+ncrack \
 
 echo "==> Installing Tails infusion and performance toolkits..."
 apt-get install -y --no-install-recommends \
@@ -179,9 +179,9 @@ else
 fi
 
 echo "==> Setting up user accounts and permissions..."
-useradd -m -s /bin/bash ghost
-echo "ghost:ghost" | chpasswd
-usermod -aG sudo,netdev,plugdev,cdrom,audio,video,users ghost
+useradd -m -s /bin/bash pancakely
+echo "pancakely:pancakely" | chpasswd
+usermod -aG sudo,netdev,plugdev,cdrom,audio,video,users pancakely
 echo "root:root" | chpasswd
 
 echo "==> Configuring NetworkManager..."
@@ -325,7 +325,7 @@ systemctl enable sec-wipe.service
 echo "==> Configuring LightDM for automatic graphical login..."
 cat > /etc/lightdm/lightdm.conf << 'EOF'
 [SeatDefaults]
-autologin-user=ghost
+autologin-user=pancakely
 autologin-user-timeout=0
 greeter-session=lightdm-gtk-greeter
 user-session=xfce
@@ -398,9 +398,9 @@ shadow_opacity=60
 shadow_color=#000000
 EOF
 
-    # Set XFCE defaults via xfconf-query replacements for the ghost user
-    mkdir -p /home/ghost/.config/xfce4/xfconf/xfce-perchannel-xml
-    cat > /home/ghost/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml << 'EOF'
+    # Set XFCE defaults via xfconf-query replacements for the pancakely user
+    mkdir -p /home/pancakely/.config/xfce4/xfconf/xfce-perchannel-xml
+    cat > /home/pancakely/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-desktop.xml << 'EOF'
 <?xml version="1.0" encoding="UTF-8"?>
 <channel name="xfce4-desktop" version="1.0">
   <property name="backdrop" type="empty">
@@ -415,7 +415,7 @@ EOF
 </channel>
 EOF
 
-    cat > /home/ghost/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml << 'EOF'
+    cat > /home/pancakely/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml << 'EOF'
 <?xml version="1.0" encoding="UTF-8"?>
 <channel name="xfwm4" version="1.0">
   <property name="general" type="empty">
@@ -427,7 +427,7 @@ EOF
 </channel>
 EOF
 
-    cat > /home/ghost/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml << 'EOF'
+    cat > /home/pancakely/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml << 'EOF'
 <?xml version="1.0" encoding="UTF-8"?>
 <channel name="xfce4-panel" version="1.0">
   <property name="panels" type="array">
@@ -457,8 +457,8 @@ EOF
 EOF
 
     # Darken xfce4-terminal
-    mkdir -p /home/ghost/.config/xfce4/terminal
-    cat > /home/ghost/.config/xfce4/terminal/terminalrc << 'EOF'
+    mkdir -p /home/pancakely/.config/xfce4/terminal
+    cat > /home/pancakely/.config/xfce4/terminal/terminalrc << 'EOF'
 [Configuration]
 ColorForeground=#ffffff
 ColorBackground=#2d2d2d
@@ -469,13 +469,13 @@ ScrollingBar=TERMINAL_SCROLLBAR_NONE
 MiscCursorBlinks=TRUE
 EOF
 
-    chown -R ghost:ghost /home/ghost/.config
+    chown -R pancakely:pancakely /home/pancakely/.config
 fi
 
 echo "==> Applying Openbox configuration for Raspberry Pi (arm64)..."
 if [ "$(uname -m)" = "aarch64" ]; then
-    mkdir -p /home/ghost/.config/openbox
-    cat > /home/ghost/.config/openbox/rc.xml << 'EOF'
+    mkdir -p /home/pancakely/.config/openbox
+    cat > /home/pancakely/.config/openbox/rc.xml << 'EOF'
 <?xml version="1.0" encoding="UTF-8"?>
 <openbox_config xmlns="http://openbox.org/3.4/rc" xmlns:xi="http://www.w3.org/2001/XInclude">
   <resistance>
@@ -570,8 +570,8 @@ if [ "$(uname -m)" = "aarch64" ]; then
 EOF
 
     # Autostart tint2 and pcmanfm for Openbox
-    mkdir -p /home/ghost/.config/openbox/autostart
-    cat > /home/ghost/.config/openbox/autostart/autostart.sh << 'EOF'
+    mkdir -p /home/pancakely/.config/openbox/autostart
+    cat > /home/pancakely/.config/openbox/autostart/autostart.sh << 'EOF'
 #!/bin/bash
 # Set dark theme manually for Openbox GTK apps
 export GTK_THEME=Adwaita:dark
@@ -579,12 +579,12 @@ pcmanfm --desktop &
 tint2 &
 volumeicon &
 EOF
-    chmod +x /home/ghost/.config/openbox/autostart/autostart.sh
+    chmod +x /home/pancakely/.config/openbox/autostart/autostart.sh
 
     # Minimal dark tint2 config
-    mkdir -p /home/ghost/.config/tint2
-    cat > /home/ghost/.config/tint2/tint2rc << 'EOF'
-# Tint2 config for GhostOS ARM64
+    mkdir -p /home/pancakely/.config/tint2
+    cat > /home/pancakely/.config/tint2/tint2rc << 'EOF'
+# Tint2 config for pancakelyOS ARM64
 rounded = 0
 border_width = 0
 background_color = #2d2d2d 100
@@ -621,12 +621,12 @@ clock_lclick_command = zenity --calendar
 clock_rclick_command = zenity --calendar
 EOF
 
-    chown -R ghost:ghost /home/ghost/.config
+    chown -R pancakely:pancakely /home/pancakely/.config
 fi
 
 echo "==> Configuring Neovim..."
-mkdir -p /home/ghost/.config/nvim
-cat > /home/ghost/.config/nvim/init.vim << 'EOF'
+mkdir -p /home/pancakely/.config/nvim
+cat > /home/pancakely/.config/nvim/init.vim << 'EOF'
 set number
 set relativenumber
 set tabstop=4
@@ -640,11 +640,11 @@ set clipboard=unnamedplus
 syntax on
 colorscheme desert
 EOF
-chown -R ghost:ghost /home/ghost/.config/nvim
+chown -R pancakely:pancakely /home/pancakely/.config/nvim
 
 echo "==> Setting up Alacritty config..."
-mkdir -p /home/ghost/.config/alacritty
-cat > /home/ghost/.config/alacritty/alacritty.yml << 'EOF'
+mkdir -p /home/pancakely/.config/alacritty
+cat > /home/pancakely/.config/alacritty/alacritty.yml << 'EOF'
 env:
   TERM: xterm-256color
 
@@ -677,7 +677,7 @@ colors:
     cyan:    '0x06989a'
     white:   '0xd3d7cf'
 EOF
-chown -R ghost:ghost /home/ghost/.config/alacritty
+chown -R pancakely:pancakely /home/pancakely/.config/alacritty
 
 echo "==> Generating initramfs and cleaning up apt cache..."
 initramfs-tools -c
@@ -703,6 +703,10 @@ umount -l "${ROOTFS_DIR}/dev" || true
 rm -f "${ROOTFS_DIR}/usr/bin/qemu-"*"-static"
 
 echo "==> Packaging OS for ${ARCH}..."
+# Inject the Cybernix automated performance alignment tool into system binaries
+echo "INFO: Injecting custom cybernix-speed utility into /usr/local/bin/..."
+cp custom-tools/cybernix-speed "${ROOTFS_DIR}/usr/local/bin/cybernix-speed"
+chmod +x "${ROOTFS_DIR}/usr/local/bin/cybernix-speed"
 
 if [ "${ARCH}" = "x86_64" ]; then
     echo "==> Building x86_64 Bootable Live ISO..."
@@ -720,7 +724,7 @@ if [ "${ARCH}" = "x86_64" ]; then
 set default=0
 set timeout=5
 
-menuentry "GhostOS (x86_64)" {
+menuentry "pancakelyOS (x86_64)" {
     linux /live/vmlinuz boot=live components quiet splash
     initrd /live/initrd.img
 }
@@ -745,9 +749,9 @@ EOF
     echo "Generating ISO with xorriso..."
     xorriso -as mkisofs \
         -r \
-        -V "GhostOS_x86_64" \
+        -V "pancakelyOS_x86_64" \
         -partition_offset 16 \
-        -o "${WORK_DIR}/GhostOS-x86_64.iso" \
+        -o "${WORK_DIR}/pancakelyOS-x86_64.iso" \
         -isohybrid-mbr /usr/lib/ISOLINUX/isohdpfx.bin \
         -b boot/grub/bios.img \
         -no-emul-boot \
@@ -758,11 +762,11 @@ EOF
         --protective-msdos-label \
         "${ISO_DIR}"
 
-    echo "==> x86_64 ISO build successful: ${WORK_DIR}/GhostOS-x86_64.iso"
+    echo "==> x86_64 ISO build successful: ${WORK_DIR}/pancakelyOS-x86_64.iso"
 
 elif [ "${ARCH}" = "arm64" ]; then
     echo "==> Building ARM64 Flashable IMG for Raspberry Pi..."
-    IMG_FILE="${WORK_DIR}/GhostOS-arm64.img"
+    IMG_FILE="${WORK_DIR}/pancakelyOS-arm64.img"
     IMG_SIZE=4G
     
     # Create blank image
@@ -811,7 +815,7 @@ EOF
 
     # Write config.txt to ensure proper ARM boot state
     cat > "${MOUNT_DIR}/boot/config.txt" << 'EOF'
-# GhostOS ARM64 Raspberry Pi Configuration
+# pancakelyOS ARM64 Raspberry Pi Configuration
 arm_64bit=1
 disable_overscan=1
 gpu_mem=128
